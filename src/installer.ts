@@ -162,9 +162,15 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
   let extPath: string;
 
   if (platform === 'win32') {
+    const timeStamp = new Date();
     extPath = await tc.extractZip(archivePath);
+    const newDate = new Date();
+    core.info(newDate.valueOf() - timeStamp.valueOf())
   } else {
+    const timeStamp = new Date();
     extPath = await tc.extractTar(archivePath);
+    const newDate = new Date();
+    core.info(newDate.valueOf() - timeStamp.valueOf())
   }
 
   return extPath;
