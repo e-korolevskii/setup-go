@@ -140,7 +140,7 @@ async function installGoVersion(
 
   const downloadPath = await tc.downloadTool(info.downloadUrl, fileName, auth);
 
-  core.info('Extracting Go...');
+  core.info('Extracting Go... (with time)');
   let extPath = await extractGoArchive(downloadPath);
   core.info(`Successfully extracted go to ${extPath}`);
   if (info.type === 'dist') {
@@ -165,12 +165,12 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
     const timeStamp = new Date();
     extPath = await tc.extractZip(archivePath);
     const newDate = new Date();
-    core.info(newDate.valueOf() - timeStamp.valueOf())
+    core.info(`Time: ${newDate.valueOf() - timeStamp.valueOf()}`)
   } else {
     const timeStamp = new Date();
     extPath = await tc.extractTar(archivePath);
     const newDate = new Date();
-    core.info(newDate.valueOf() - timeStamp.valueOf())
+    core.info(`Time: ${newDate.valueOf() - timeStamp.valueOf()}`)
   }
 
   return extPath;
