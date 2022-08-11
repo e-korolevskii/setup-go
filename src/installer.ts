@@ -165,12 +165,12 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
     const timeStamp = new Date();
     extPath = await tc.extractZip(archivePath);
     const newDate = new Date();
-    core.info(`Time: ${newDate.valueOf() - timeStamp.valueOf()}`)
+    core.info(`Time: ${newDate.valueOf() - timeStamp.valueOf()}`);
   } else {
     const timeStamp = new Date();
     extPath = await tc.extractTar(archivePath);
     const newDate = new Date();
-    core.info(`Time: ${newDate.valueOf() - timeStamp.valueOf()}`)
+    core.info(`Time: ${newDate.valueOf() - timeStamp.valueOf()}`);
   }
 
   return extPath;

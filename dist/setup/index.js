@@ -62947,7 +62947,7 @@ function installGoVersion(info, auth) {
         const tempDir = process.env.RUNNER_TEMP || '.';
         const fileName = isWindows ? path.join(tempDir, info.fileName) : undefined;
         const downloadPath = yield tc.downloadTool(info.downloadUrl, fileName, auth);
-        core.info('Extracting Go...');
+        core.info('Extracting Go... (with time)');
         let extPath = yield extractGoArchive(downloadPath);
         core.info(`Successfully extracted go to ${extPath}`);
         if (info.type === 'dist') {
@@ -62964,10 +62964,16 @@ function extractGoArchive(archivePath) {
         const platform = os_1.default.platform();
         let extPath;
         if (platform === 'win32') {
+            const timeStamp = new Date();
             extPath = yield tc.extractZip(archivePath);
+            const newDate = new Date();
+            core.info(`Time: ${newDate.valueOf() - timeStamp.valueOf()}`);
         }
         else {
+            const timeStamp = new Date();
             extPath = yield tc.extractTar(archivePath);
+            const newDate = new Date();
+            core.info(`Time: ${newDate.valueOf() - timeStamp.valueOf()}`);
         }
         return extPath;
     });
