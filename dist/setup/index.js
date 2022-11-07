@@ -63029,7 +63029,6 @@ const cache = __importStar(__nccwpck_require__(7799));
 const core = __importStar(__nccwpck_require__(2186));
 const glob = __importStar(__nccwpck_require__(8090));
 const path_1 = __importDefault(__nccwpck_require__(1017));
-const fs_1 = __importDefault(__nccwpck_require__(7147));
 const constants_1 = __nccwpck_require__(9042);
 const cache_utils_1 = __nccwpck_require__(1678);
 exports.restoreCache = (versionSpec, packageManager, cacheDependencyPath) => __awaiter(void 0, void 0, void 0, function* () {
@@ -63059,17 +63058,10 @@ exports.restoreCache = (versionSpec, packageManager, cacheDependencyPath) => __a
 const findDependencyFile = (packageManager) => __awaiter(void 0, void 0, void 0, function* () {
     let dependencyFile = packageManager.dependencyFilePattern;
     const workspace = process.env.GITHUB_WORKSPACE;
-    const rootContent = fs_1.default.readdirSync(workspace);
-    core.info(rootContent.join("\n"));
-    const patterns = [`**/${dependencyFile}`, `${dependencyFile}`];
-    const globber = yield glob.create(patterns.join("\n"));
+    const globber = yield glob.create(`**/${dependencyFile}`);
     const files = yield globber.glob();
-    core.info("____________");
-    core.info("____________");
-    core.info("____________");
-    core.info("____________");
     core.info(files.join("\n"));
-    const goSumFileExists = rootContent.includes(dependencyFile);
+    const goSumFileExists = files.includes(dependencyFile);
     if (!goSumFileExists) {
         throw new Error(`Dependencies file is not found in ${workspace}. Supported file pattern: ${dependencyFile}`);
     }
