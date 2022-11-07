@@ -63020,15 +63020,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.restoreCache = void 0;
 const cache = __importStar(__nccwpck_require__(7799));
 const core = __importStar(__nccwpck_require__(2186));
 const glob = __importStar(__nccwpck_require__(8090));
-const path_1 = __importDefault(__nccwpck_require__(1017));
 const constants_1 = __nccwpck_require__(9042);
 const cache_utils_1 = __nccwpck_require__(1678);
 exports.restoreCache = (versionSpec, packageManager, cacheDependencyPath) => __awaiter(void 0, void 0, void 0, function* () {
@@ -63057,15 +63053,13 @@ exports.restoreCache = (versionSpec, packageManager, cacheDependencyPath) => __a
 });
 const findDependencyFile = (packageManager) => __awaiter(void 0, void 0, void 0, function* () {
     let dependencyFile = packageManager.dependencyFilePattern;
-    const workspace = process.env.GITHUB_WORKSPACE;
     const globber = yield glob.create(`**/${dependencyFile}`);
     const files = yield globber.glob();
     core.info(files.join("\n"));
-    const goSumFileExists = files.includes(dependencyFile);
-    if (!goSumFileExists) {
-        throw new Error(`Dependencies file is not found in ${workspace}. Supported file pattern: ${dependencyFile}`);
+    if (!files.length) {
+        throw new Error(`Dependencies file is not found in. Supported file pattern: ${dependencyFile}`);
     }
-    return path_1.default.join(workspace, dependencyFile);
+    return files[0];
 });
 
 

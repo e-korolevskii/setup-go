@@ -49,19 +49,17 @@ export const restoreCache = async (
 
 const findDependencyFile = async (packageManager: PackageManagerInfo) => {
   let dependencyFile = packageManager.dependencyFilePattern;
-  const workspace = process.env.GITHUB_WORKSPACE!;
 
   const globber = await glob.create(`**/${dependencyFile}`)
   const files = await globber.glob()
 
   core.info(files.join("\n"))
 
-  const goSumFileExists = files.includes(dependencyFile);
-  if (!goSumFileExists) {
+  if (!files.length) {
     throw new Error(
-      `Dependencies file is not found in ${workspace}. Supported file pattern: ${dependencyFile}`
+      `Dependencies file is not found in. Supported file pattern: ${dependencyFile}`
     );
   }
 
-  return path.join(workspace, dependencyFile);
+  return files[0];
 };
