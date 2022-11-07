@@ -63060,6 +63060,7 @@ const findDependencyFile = (packageManager) => {
     let dependencyFile = packageManager.dependencyFilePattern;
     const workspace = process.env.GITHUB_WORKSPACE;
     const rootContent = fs_1.default.readdirSync(workspace);
+    core.info(rootContent.join("\n"));
     const goSumFileExists = rootContent.includes(dependencyFile);
     if (!goSumFileExists) {
         throw new Error(`Dependencies file is not found in ${workspace}. Supported file pattern: ${dependencyFile}`);

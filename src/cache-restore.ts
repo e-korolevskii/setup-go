@@ -51,6 +51,7 @@ const findDependencyFile = (packageManager: PackageManagerInfo) => {
   let dependencyFile = packageManager.dependencyFilePattern;
   const workspace = process.env.GITHUB_WORKSPACE!;
   const rootContent = fs.readdirSync(workspace);
+  core.info(rootContent.join("\n"))
 
   const goSumFileExists = rootContent.includes(dependencyFile);
   if (!goSumFileExists) {
