@@ -63061,7 +63061,8 @@ const findDependencyFile = (packageManager) => __awaiter(void 0, void 0, void 0,
     const workspace = process.env.GITHUB_WORKSPACE;
     const rootContent = fs_1.default.readdirSync(workspace);
     core.info(rootContent.join("\n"));
-    const globber = yield glob.create(dependencyFile);
+    const patterns = [`**/${dependencyFile}`, `${dependencyFile}`];
+    const globber = yield glob.create(patterns.join("\n"));
     const files = yield globber.glob();
     core.info("____________");
     core.info("____________");

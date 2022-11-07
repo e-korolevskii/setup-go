@@ -53,7 +53,8 @@ const findDependencyFile = async (packageManager: PackageManagerInfo) => {
   const rootContent = fs.readdirSync(workspace);
   core.info(rootContent.join("\n"))
 
-  const globber = await glob.create(dependencyFile)
+  const patterns = [`**/${dependencyFile}`, `${dependencyFile}`]
+  const globber = await glob.create(patterns.join("\n"))
   const files = await globber.glob()
   core.info("____________")
   core.info("____________")
