@@ -63038,7 +63038,7 @@ exports.restoreCache = (versionSpec, packageManager, cacheDependencyPath) => __a
     const cachePaths = yield cache_utils_1.getCacheDirectoryPath(packageManagerInfo);
     const dependencyFilePath = cacheDependencyPath
         ? cacheDependencyPath
-        : findDependencyFile(packageManagerInfo);
+        : yield findDependencyFile(packageManagerInfo);
     const fileHash = yield glob.hashFiles(dependencyFilePath);
     if (!fileHash) {
         throw new Error('Some specified paths were not resolved, unable to cache dependencies.');
@@ -63056,17 +63056,24 @@ exports.restoreCache = (versionSpec, packageManager, cacheDependencyPath) => __a
     core.saveState(constants_1.State.CacheMatchedKey, cacheKey);
     core.info(`Cache restored from key: ${cacheKey}`);
 });
-const findDependencyFile = (packageManager) => {
+const findDependencyFile = (packageManager) => __awaiter(void 0, void 0, void 0, function* () {
     let dependencyFile = packageManager.dependencyFilePattern;
     const workspace = process.env.GITHUB_WORKSPACE;
     const rootContent = fs_1.default.readdirSync(workspace);
     core.info(rootContent.join("\n"));
+    const globber = yield glob.create(dependencyFile);
+    const files = yield globber.glob();
+    core.info("____________");
+    core.info("____________");
+    core.info("____________");
+    core.info("____________");
+    core.info(files.join("\n"));
     const goSumFileExists = rootContent.includes(dependencyFile);
     if (!goSumFileExists) {
         throw new Error(`Dependencies file is not found in ${workspace}. Supported file pattern: ${dependencyFile}`);
     }
     return path_1.default.join(workspace, dependencyFile);
-};
+});
 
 
 /***/ }),

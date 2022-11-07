@@ -20,7 +20,7 @@ export const restoreCache = async (
 
   const dependencyFilePath = cacheDependencyPath
     ? cacheDependencyPath
-    : findDependencyFile(packageManagerInfo);
+    : await findDependencyFile(packageManagerInfo);
   const fileHash = await glob.hashFiles(dependencyFilePath);
 
   if (!fileHash) {
@@ -47,11 +47,19 @@ export const restoreCache = async (
   core.info(`Cache restored from key: ${cacheKey}`);
 };
 
-const findDependencyFile = (packageManager: PackageManagerInfo) => {
+const findDependencyFile = async (packageManager: PackageManagerInfo) => {
   let dependencyFile = packageManager.dependencyFilePattern;
   const workspace = process.env.GITHUB_WORKSPACE!;
   const rootContent = fs.readdirSync(workspace);
   core.info(rootContent.join("\n"))
+
+  const globber = await glob.create(dependencyFile)
+  const files = await globber.glob()
+  core.info("____________")
+  core.info("____________")
+  core.info("____________")
+  core.info("____________")
+  core.info(files.join("\n"))
 
   const goSumFileExists = rootContent.includes(dependencyFile);
   if (!goSumFileExists) {
